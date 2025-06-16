@@ -1,0 +1,45 @@
+/* نخفي الأسهم بشكل افتراضي */
+.swiper:hover .swiper-button-next,
+.swiper:hover .swiper-button-prev {
+  opacity: 1;
+  visibility: visible;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  width: 36px;
+  height: 36px;
+  background-color: #00000088;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+/* نص السهم */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 16px;
+}
+.category-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.category-img:hover {
+  transform: scale(1.2);
+}
+
+.category-title {
+  font-size: 13px;
+  white-space: nowrap;
+  text-align: center;
+  color: #333;
+}

@@ -1,0 +1,13 @@
+.iconCircle{
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0.1px solid rgb(135, 134, 134);
+    border-radius: 50%;
+}
+
+.iconCircle :hover {
+  padding: 2px;
+}
