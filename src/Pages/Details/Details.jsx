@@ -143,9 +143,9 @@ const Details = () => {
                     <Accordion defaultActiveKey={['0']} alwaysOpen className="custom-accordion">
                         <Accordion.Item eventKey="0">
                             <Accordion.Header> Reviews Details </Accordion.Header>
-                            <Accordion.Body>
-                                
-                    <ReviewsDetails />
+                            <Accordion.Body>      
+                                {/* كموبنينت الرفيو */}
+                                <ReviewsDetails /> 
                             </Accordion.Body>
                         </Accordion.Item>
                     </Accordion>

@@ -11,8 +11,7 @@ import { AuthProvider } from './context/auth'
 import Home from './Pages/Home'
 import Details from './Pages/Details/Details'
 import CategoriesPage from './Pages/CategoriesPage/CategoriesPage'
-import ShoppingCart from './Pages/ShoppingCart/ShoppingCart'
-import InformationPerson from './Pages/InformationPerson/InformationPerson'
+import Shopping from './Pages/Shopping/Shopping'
 
 const myRouter=createBrowserRouter(
   [
@@ -24,8 +23,7 @@ const myRouter=createBrowserRouter(
       {path:'details/:id',element:<Details/>},
       {path:'Categories/:id',element:<CategoriesPage/>},
       {path:'brands',element:<Brands/>},
-      {path:'ShoppingCart',element:<ShoppingCart/>},
-      {path:'InformationPerson',element:<InformationPerson/>},
+      {path:'ShoppingCart',element:<Shopping/>},
 
 
       {path:'*',element:<NotFound/>},

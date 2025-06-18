@@ -41,12 +41,7 @@ const ShoppingCart = () => {
   ];
 
   return (
-    <div className="container py-3">
-     <div className="mb-5 text-center bg-light pt-5 pb-5">
-         <h2 className="fw-bold">Shopping Cart</h2>
-      <p className="text-muted">Home / Shopping Cart</p>
-     </div>
-
+    <div className="container">
       <div className="row">
         <div className="col-12 col-lg-8 col-sm-12">
           <div className="table-responsive">

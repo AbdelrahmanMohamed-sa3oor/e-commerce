@@ -46,8 +46,9 @@ const Products = ({ products, slider = false,Categories }) => {
       >
         {/* Add to Cart Button */}
        
-         <div className="bg-light text-dark rounded-circle shadow-sm">
-           <AddToCart hover={true}/>
+         <div title="اضافة المنتج" className="bg-light text-dark rounded-circle shadow-sm">
+           <AddToCart hover={true} />
+
          </div>
 
         {/* Heart Icon */}

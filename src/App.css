@@ -146,8 +146,16 @@
 .custom-accordion .accordion-button::after {
   filter: invert(1);
 }
+/* Shopping */
+.bgCartInfo{
+ background-image: url('../src/assets/cartShopping.jpg');
+  background-repeat: no-repeat;
 
+  background-size: cover;
+  background-position: center;
+}
 
+/* Products page */
 
 
 @keyframes fadeIn {
