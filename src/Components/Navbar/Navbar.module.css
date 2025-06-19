@@ -6,8 +6,12 @@
     align-items: center;
     border: 0.1px solid rgb(135, 134, 134);
     border-radius: 50%;
+    background-color: black;
+    color: white;
+    padding: 14px;
 }
 
 .iconCircle :hover {
   padding: 2px;
+  
 }
