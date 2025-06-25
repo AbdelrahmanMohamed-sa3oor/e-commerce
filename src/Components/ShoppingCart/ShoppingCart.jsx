@@ -1,44 +1,20 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateQuantityThunk } from '../../Redux/Slice/Cart/updateQuantity';
+import { getCartThunk } from '../../Redux/Slice/Cart/getcartuser';
 
 const ShoppingCart = () => {
-  const items = [
-    {
-      id: 1,
-      name: 'Fresh Oranges',
-      weight: '500 g',
-      price: 11.75,
-      qty: 4,
-      subtotal: 47.0,
-      image: 'https://img.icons8.com/emoji/48/onion-emoji.png',
-    },
-    {
-      id: 2,
-      name: 'Red Onion',
-      weight: '500 g',
-      price: 8.0,
-      qty: 2,
-      subtotal: 16.0,
-      image: 'https://img.icons8.com/emoji/48/onion-emoji.png',
-    },
-    {
-      id: 3,
-      name: 'Fresh Yellow Lemon',
-      weight: '1 Kg',
-      price: 8.0,
-      qty: 1,
-      subtotal: 8.0,
-      image: 'https://img.icons8.com/emoji/48/onion-emoji.png',
-    },
-    {
-      id: 4,
-      name: 'Pomegranate',
-      weight: '500 g',
-      price: 7.2,
-      qty: 2,
-      subtotal: 14.4,
-      image: 'https://img.icons8.com/emoji/48/onion-emoji.png',
-    },
-  ];
+  const dispatch = useDispatch();
+  const cart = useSelector(state => state.GetCart.cart);
+  const cartItem = useSelector(state => state.GetCart.cart?.cartItems) || [];
+
+  console.log(cartItem);
+
+  const handleUpdateQuantity = (prdID, newQuantity) => {
+    dispatch(updateQuantityThunk({ prdID, quantity: newQuantity }));
+    dispatch(getCartThunk())
+  };
+
 
   return (
     <div className="container">
@@ -55,36 +31,37 @@ const ShoppingCart = () => {
                 </tr>
               </thead>
               <tbody>
-                {items.map((item) => (
+                {cartItem?.map((item) => (
                   <tr key={item.id}>
                     <td>
                       <div className="d-flex align-items-center">
                         <button className="btn btn-sm btn-outline-danger me-2">&times;</button>
-                        <img src={item.image} alt={item.name} width="48" height="48" className="me-2" />
+                        <img src={item.prdID?.images?.find(img => img.isPrimary)?.url || item.prdID?.images?.[0]?.url} alt={item.prdID?.name} width={48} height={48} />
                         <div>
-                          <div>{item.name}</div>
-                          <small className="text-muted">{item.weight}</small>
+                          <div>{item?.prdID?.name}</div>
+                          <small className="text-muted">{ }</small>
                         </div>
                       </div>
                     </td>
-                    <td>${item.price.toFixed(2)}</td>
+                    <td>${item?.prdID?.price}</td>
                     <td>
                       <div className="d-flex align-items-center rounded ">
                         <div className="border rounded-2">
-                            <button className="btn border-end">-</button>
-                        <span className="mx-3">{item.qty}</span>
-                        <button className="btn border-start">+</button>
+                          <button onClick={() => handleUpdateQuantity(item?.prdID?.id, item?.quantity - 1)}>-</button>
+                          <span className="mx-3">{item?.quantity}</span>
+                          <button
+                           onClick={() => handleUpdateQuantity(item?.prdID?.id, item?.quantity + 1)}>+</button>
                         </div>
                       </div>
                     </td>
-                    <td>${item.subtotal.toFixed(2)}</td>
+                    <td>${ }</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
 
-          
+
         </div>
 
         <div className="col-lg-4 mt-4 mt-lg-0">
@@ -113,7 +90,7 @@ const ShoppingCart = () => {
               </li>
               <li className="d-flex justify-content-between fw-bold border-top pt-2">
                 <span>Total</span>
-                <span>$74.40</span>
+                <span>{cart?.total}</span>
               </li>
             </ul>
             <button className="btn btn-success w-100 mt-3">Proceed to Checkout</button>

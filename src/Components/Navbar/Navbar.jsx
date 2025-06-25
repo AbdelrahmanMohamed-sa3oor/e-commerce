@@ -10,21 +10,20 @@ import { CgProfile } from "react-icons/cg";
 import { TbLogin2 } from "react-icons/tb";
 import { GoSignIn } from "react-icons/go";
 import { BiLogOutCircle } from "react-icons/bi";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProfile, logout } from '../../Redux/Slice/auth';
 import { TfiHelpAlt } from "react-icons/tfi";
+import { GetWishlistThunk } from '../../Redux/Slice/wishlist/getWishlist';
+import SidebarCanvas from '../SidebarCanvas/SidebarCanvas';
 const Navbar = () => {
     const Navigate = useNavigate()
     const [ShowMenu, setShowMenu] = useState(false)
     const menuRef = useRef();
     const [scrolled, setScrolled] = useState(false);
     const Dispatch = useDispatch()
+    const cart = useSelector(state => state.GetCart.cart?.cartItems);
     const { isAuthenticated, user, token } = useSelector((state) => state.auth)
-    console.log(isAuthenticated);
-    console.log(user);
-
-
     const LinkNav =
         <ul className={` mt-3 bg-light d-flex list-unstyled justify-content-center `}       >
             <li className='fs-3 '>Home</li>
@@ -87,6 +86,14 @@ const Navbar = () => {
         };
     }, [ShowMenu]);
 
+    const handleWishlist = () => {
+        if (token) {
+            Navigate('/Wishlist')
+        } else {
+            Navigate('/Login')
+        }
+    }
+
     return <>
         <nav className={`navbar navbar-expand-lg ${scrolled ? 'shadow-sm bg-light fixed-top' : ' sticky-top '}`}>
             <div className='container-fluid'>
@@ -97,22 +104,35 @@ const Navbar = () => {
                             className="navbar-toggler d-block d-lg-none bg-transparent"
                             type="button"
                             data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasNavbar"
-                            aria-controls="offcanvasNavbar"
+                            data-bs-target="#mainSidebar"
                         >
                             <span className="navbar-toggler-icon"></span>
                         </button>
                         <div className='col-lg-3'>
-                            <img width={'140px'} height={'25px'} src="https://avatars.mds.yandex.net/get-marketpic/3735263/pic443b9881bfb3be90f3e6e4eebeaad14c/orig" alt="" />
+                            <Link to={'/'}>
+                                <img width={'140px'} height={'25px'} src="https://avatars.mds.yandex.net/get-marketpic/3735263/pic443b9881bfb3be90f3e6e4eebeaad14c/orig" alt="" />
+                            </Link>
                         </div>
                         <div className="col-lg-9 d-flex " >
                             <div className="col-lg-8 d-lg-block d-none">
                                 <SearchName />
                             </div>
-                            <div className='d-lg-flex d-none col-lg-2 justify-content-end pe-4'>
-                                <MdAddShoppingCart onClick={() => Navigate('/ShoppingCart')}
-                                    size={40} color='#ED4D2B' className='border rounded-circle p-2 m-0' />
-                                <FiHeart size={40} color='#ED4D2B' className='border rounded-circle p-2 ms-2' />
+                            <div
+                                className='d-lg-flex d-none col-lg-2 justify-content-end pe-4'>
+
+                                <MdAddShoppingCart
+                                style={{cursor:'pointer'}}
+                                    data-bs-toggle="offcanvas"
+                                    data-bs-target="#mainSidebar"
+                                    size={40} color='#ED4D2B' className='border rounded-circle p-2 m-0 position-relative' />
+                                <span style={{ position: 'absolute', right: '250px', top: '0px' }}
+                                    className='badge bg-danger rounded-circle'
+                                >{cart?.length}</span>
+
+                                <FiHeart size={40} color='#ED4D2B'
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={handleWishlist}
+                                    className='border rounded-circle p-2 ms-2' />
                             </div>
                             <div >
                                 {/* profile div */}
@@ -159,7 +179,10 @@ const Navbar = () => {
                                             </div>
                                             <div className='d-flex align-items-center'>
                                                 <BiLogOutCircle className='me-2 mb-1' />
-                                                <li className="mb-1 py-1 text-muted" onClick={() => Dispatch(logout())}>Logout</li>
+                                                <li className="mb-1 py-1 text-muted" onClick={() => {
+                                                    Dispatch(logout())
+                                                    Dispatch(GetWishlistThunk())
+                                                }}>Logout</li>
                                             </div>
                                         </div> :
                                             <div className="">
@@ -184,49 +207,11 @@ const Navbar = () => {
                                 </ul>
                             </div>
                         }
-                        {/* link  */}
-
-                        {/* القائمة الجانبية */}
-                        <div
-                            className="offcanvas offcanvas-start"
-                            tabIndex="-1"
-                            id="offcanvasNavbar"
-                            aria-labelledby="offcanvasNavbarLabel"
-                        >
-                            {/* Mobile */}
-                            <div className="offcanvas-header">
-
-                                <h5 className="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-                                <button
-                                    type="button"
-                                    className="btn-close"
-                                    data-bs-dismiss="offcanvas"
-                                    aria-label="Close"
-                                ></button>
-
-
-                            </div>
-                            {/* Add to cart */}
-                            <div className="d-lg-none d-sm-flex">
-                                <div className="ps-3 d-flex align-items-center me-3">
-                                    {
-                                        profile
-                                    }
-                                    <div>
-                                        <h4 className='text-dark ms-3 p-0 m-0'>{user?.name || 'welcome Guest'}</h4>
-                                    <span className='text-dark ms-3 '> {user?.email || ''}</span>
-                                    </div>
-                                </div>
-                                    {
-                                        LinkNav
-                                    }
-                            </div>
-
-                        </div>
                     </div>
                 </nav>
             </div>
         </nav>
+    <SidebarCanvas />
     </>
 }
 

@@ -1,5 +1,4 @@
 import { FaStar } from "react-icons/fa";
-import { IoMdHeartEmpty } from "react-icons/io";
 import '../../App.css';
 import AddToCart from "../AddToCart/AddToCart";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,26 +8,34 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AddToWishlist from "../AddToWishlist/AddToWishlist";
 
-const Products = ({ products, slider = false,Categories }) => {
+const Products = ({ products, slider = false, Categories }) => {
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
   const navigate = useNavigate()
+
+  console.log(products);
+  
+
+  
+  
+
   const renderCard = (src, index) => (
-    <div key={index} className="shadow-sm rounded-4 bg-white product-card"
+    <div key={index} className="shadow-sm rounded-4 bg-white product-card mt-3"
       style={{
         position: "relative", overflow: "hidden",
         zIndex: hoveredCardIndex === index ? 20 : 1,
-        cursor:'pointer', transition: "transform 0.3s ease, box-shadow 0.3s ease",
+        cursor: 'pointer', transition: "transform 0.3s ease, box-shadow 0.3s ease",
         transform: hoveredCardIndex === index ? "translateY(-9px)" : "none",
         boxShadow: hoveredCardIndex === index ? "0px 4px 40px rgba(0,0,0,0.15)" : "none"
       }}
       onMouseOver={() => setHoveredCardIndex(index)}
       onMouseOut={() => setHoveredCardIndex(null)}
-      onClick={()=>navigate(`/details/${src.id}`)}
     >
       {/* Product Image */}
-      <img src={src.image} className="card-img-top rounded-top product-img"
+      <img src={src?.imageCover || src?.image} className="card-img-top rounded-top product-img"
         width={300} height={160} alt={`Product ${index + 1}`}
+        onClick={() => navigate(`/details/${src?._id}`)}
       />
 
       {/* Wishlist + AddToCart */}
@@ -45,45 +52,55 @@ const Products = ({ products, slider = false,Categories }) => {
         className="pt-1 mt-1 ps-3 justify-content-between"
       >
         {/* Add to Cart Button */}
-       
-         <div title="اضافة المنتج" className="bg-light text-dark rounded-circle shadow-sm">
-           <AddToCart hover={true} />
 
-         </div>
+        <div title="اضافة المنتج" className="bg-light text-dark rounded-circle shadow-sm">
+          <AddToCart hover={true} onClick={(e) => {
+            e.stopPropagation();
+
+          }} id={src?._id} />
+
+        </div>
 
         {/* Heart Icon */}
+
+        <div className="bg-light ps-1 mt-1 px-1 py-1 text-dark rounded-circle shadow-sm"
         
-          <div className="bg-light ps-1 mt-1 px-1 py-1 text-dark rounded-circle shadow-sm">
-          <IoMdHeartEmpty size={28} color="black" className="mt-1 ps-1" style={{cursor:'pointer'}}/>
-         </div>
+        >
+         <AddToWishlist id={src?._id}/>
+        </div>
 
       </div>
-      
+
 
       {/* Product Content */}
-      <div className="m-1 pt-1 m-lg-2 mb-lg-1">
-        <h6 className="product-title m-0 m-lg-1">{src.name}</h6>
+      <div className="m-1 pt-1 m-lg-2 mb-lg-1"
+        onClick={() => navigate(`/details/${src?._id}`)}
+
+      >
+        <h6 className="product-title m-0 m-lg-1">{src?.name}</h6>
         <div className="my-lg-2 d-flex align-items-center">
-          {Array.from({ length: 5 }).map((_, i) => (
+          {Array?.from({ length: 5 }).map((_, i) => (
             <FaStar key={i} color={i < src.rating ? "#ffc107" : "#e4e5e9"} />
           ))}
           <span className="ms-2" style={{ fontSize: "15px" }}>
-            {src.reviewsCount} Reviews
+            {src?.reviewsCount} Reviews
           </span>
         </div>
 
         <div className="ellipsis-multiline mb-2">
-          <p>{src.description}</p>
+          <p>{src?.description}</p>
         </div>
 
         <div className="d-flex m-lg-1 pb-2 justify-content-between align-items-center">
-          <p className="p-0 m-0 ">${src.price}</p>
-          <span className="bg-light p-1 rounded">{src.discount}</span>
+          <p className="p-0 m-0 ">${src?.price}</p>
+          <span className="bg-light p-1 rounded">{src?.discount}</span>
         </div>
-       
+
       </div>
     </div>
   );
+
+  
 
   return (
     <div className="mt-3 pt-2 mb-3 pb-3">
@@ -102,7 +119,7 @@ const Products = ({ products, slider = false,Categories }) => {
             992: { slidesPerView: 5 },
           }}
         >
-          {products.map((src, index) => (
+          {products?.map((src, index) => (
             <SwiperSlide key={index}>
               {renderCard(src, index)}
             </SwiperSlide>
@@ -110,9 +127,9 @@ const Products = ({ products, slider = false,Categories }) => {
         </Swiper>
       ) : (
         <div className="row">
-          {products.map((src, index) => (
-            <div key={index} 
-             className={`col-6 ${Categories ?'col-lg-3':'col-lg-2'} p-2 col-md-4 col-sm-6 mb-3`}>
+          {products?.map((src, index) => (
+            <div key={index}
+              className={`col-6 ${Categories ? 'col-lg-3' : 'col-lg-2'} p-2 col-md-4 col-sm-6 mb-3`}>
               {renderCard(src, index)}
             </div>
           ))}

@@ -1,6 +1,9 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 
 const Ranking = () => {
+  const dispatch = useDispatch();
+
   return (
     <>
     <div className='container'>
@@ -19,13 +22,7 @@ const Ranking = () => {
         style={{backgroundColor:'#ED4D2B'}}
         >max rating</button>
 
-        <button className='btn text-white rounded-4 mt-2 m-1'
-        style={{backgroundColor:'#ED4D2B'}}
-        >Price min to max</button>
-
-        <button className='btn text-white rounded-4 mt-2 m-1'
-        style={{backgroundColor:'#ED4D2B'}}
-        >Price max to min</button>
+       
         </div>
     </div>
     </>

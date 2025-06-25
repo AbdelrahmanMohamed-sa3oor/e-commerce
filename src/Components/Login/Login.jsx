@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { PropagateLoader } from "react-spinners";
 import { LoginThunk } from "../../Redux/Slice/Login/Login";
 import { setCredentials } from "../../Redux/Slice/auth";
+import { GetWishlistThunk } from "../../Redux/Slice/wishlist/getWishlist";
 const Login = () => {
 
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ const Login = () => {
       setTimeout(() => {
         navigate('/')
       }, 2000);
+      dispatch(GetWishlistThunk())
 
     } catch (err) {
       console.error('error:', err);

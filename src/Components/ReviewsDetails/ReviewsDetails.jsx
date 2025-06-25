@@ -3,7 +3,7 @@ import { FaStar } from 'react-icons/fa'
 import { MdOutlineRateReview } from "react-icons/md";
 import images from '../../assets/offers.jpg';
 
-const ReviewsDetails = () => {
+const ReviewsDetails = ({date}) => {
     const ratings = [
         { star: 5, percentage: 90 },
         { star: 4, percentage: 60 },
@@ -37,7 +37,7 @@ const ReviewsDetails = () => {
             <h4 >Average Rating</h4>
             <div className='border rounded-4 p-2 mt-3 shadow-sm'>
                 <div className="d-flex ps-2 align-items-center">
-                    <span className='me-2'>4.5</span>
+                    <span className='me-2 text-black'>{date?.ratings?.average || 'No Reviews'}</span>
                     <div>
                         <FaStar color='yellow' />
                         <FaStar color='yellow' />
@@ -51,7 +51,7 @@ const ReviewsDetails = () => {
                     {ratings.map((item) => (
                         <div className="row align-items-center mb-1 " key={item.star}>
                             <div className="col-1 pe-0">
-                                <strong>{item.star}</strong>
+                                <strong>{date?.ratings?.average}</strong>
                             </div>
                             <div className="col-9 px-2">
                                 <div className="progress" style={{ height: '8px', backgroundColor: '#f1f1f1' }}>

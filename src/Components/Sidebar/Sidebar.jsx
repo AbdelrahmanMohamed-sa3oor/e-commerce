@@ -25,6 +25,8 @@ const Sidebar = () => {
   const handelShow = () => {
     setModel(true)
   }
+
+
   
   return (
     <>
@@ -38,8 +40,10 @@ const Sidebar = () => {
           </div>
           :
           <div className='col-lg-12 col-md-12 col-sm-12 vh-75 '>
-            <SearchName />
-            <Ranking/>
+            <SearchName pages={true}/>
+
+            {/* Ranking */}
+            <Ranking />
             <PriceRange />
 
             <div className='mt-4'>

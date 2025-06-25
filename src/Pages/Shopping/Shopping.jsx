@@ -1,24 +1,29 @@
 import { useState } from "react";
 import InformationPerson from "../../Components/InformationPerson/InformationPerson";
 import ShoppingCart from "../../Components/ShoppingCart/ShoppingCart";
-import ReviewsDetails from "../../Components/ReviewsDetails/ReviewsDetails";
 import '../../App.css'
 const Shopping = () => {
   const steps = [
-    { number: 1, label: "Step One",des:'Information Person' },
-    { number: 2, label: "Step Two",des:'Shopping Cart' },
+    { number: 1, label: "Step One",des:' Shopping Cart' },
+    { number: 2, label: "Step Two",des:'Information Person' },
     { number: 3, label: "Step Three",des:'status Order' },
     { number: 4, label: "Step Four",des:'Reviews Details' },
   ];
 
   const [showStep, setShowStep] = useState(0); 
+  const [Payment, setPayment] = useState(null);
+
+  console.log(Payment);
+  
+
+  
 
   const renderStepComponent = () => {
     switch (showStep) {
       case 0:
-        return <InformationPerson />;
+        return <ShoppingCart setPayment={setPayment} Payment={Payment}/>;
       case 1:
-        return <ShoppingCart />;
+        return <InformationPerson />;
       case 2:
         return;
       case 3:
@@ -64,38 +69,6 @@ const Shopping = () => {
         <h2 className="fw-bold">{steps[showStep].des}</h2>
      </div>
 
-      {/* الخطوط */}
-      <div className="d-none d-lg-flex">
-        <div
-          className="position-absolute"
-          style={{
-            top: "140px",
-            left: "265px",
-            width: "300px",
-            borderTop: "2px solid rgb(133, 131, 130)",
-          }}
-        ></div>
-        <div
-          className="position-absolute"
-          style={{
-            top: "140px",
-            left: "665px",
-            width: "300px",
-            borderTop: "2px solid rgb(133, 131, 130)",
-          }}
-        ></div>
-        <div
-          className="position-absolute"
-          style={{
-            top: "140px",
-            right: "250px",
-            width: "300px",
-            borderTop: "2px solid rgb(133, 131, 130)",
-          }}
-        ></div>
-      </div>
-
-      {/* المحتوى المتغير حسب الخطوة */}
       <div className="mt-4">{renderStepComponent()}</div>
     </div>
   );

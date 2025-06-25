@@ -11,7 +11,6 @@ const Register = async ({ name, email, password, phone, addresses }, { rejectWit
             phone: phone,
             addresses: addresses  
         })
-        console.log(data);
         
         return data.data
     } catch (error) {

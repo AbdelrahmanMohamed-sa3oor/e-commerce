@@ -3,10 +3,14 @@ import AddToCart from '../../Components/AddToCart/AddToCart';
 import { Link } from 'react-router-dom';
 import { IoMdHeartEmpty } from "react-icons/io";
 import { FaWhatsapp } from "react-icons/fa6";
-const DetailsContent = () => {
+import AddToWishlist from '../AddToWishlist/AddToWishlist';
+const DetailsContent = ({ data }) => {
 
   const [ShowDes, setShowDes] = useState(true)
   const [Quantity, setQuantity] = useState(1)
+
+  console.log(data);
+  
 
 
   return (
@@ -14,21 +18,30 @@ const DetailsContent = () => {
       <div className="col-lg-12" >
         <div className='d-flex justify-content-between '>
           <div className="">
-            <p className='m-0'>New Collecttion</p>
-            <span>Sports</span>
+            <p className='m-0'>{data?.brand}</p>
+            <span>Sports Catogers</span>
           </div>
-          <div className="d-flex  justify-content-center align-items-center">
-            <IoMdHeartEmpty className='border d-flex  p-2 rounded-circle justify-content-center align-items-center'
-              size={42} />
+          <div className="d-flex border px-2  rounded-circle justify-content-center align-items-center">
+            <AddToWishlist id={data?._id}/>
           </div>
         </div>
-        <h2>Product Shell Chair is free and the is very goood place inter the price </h2>
-        <span >Color</span>
-        <p className='mt-lg-3'>Reviews</p>
-        <div className='col-lg-10 d-flex justify-content-between'>
+        <h2>{data?.name}</h2>
+        <span >Color </span>
+        <div className="d-flex flex-column flex-md-row justify-content-between gap-3 mb-3">
+          <div className="d-flex align-items-center">
+            <p className="mb-0 me-2 fs-6 text-muted">SKU:</p>
+            <span className="fw-semibold">{data?.sku}</span>
+          </div>
+          <div className="d-flex align-items-center">
+            <p className="mb-0 me-2 fs-6 text-muted">Stock:</p>
+            <span className="fw-semibold">{data?.stock}</span>
+          </div>
+        </div>
+
+        <div className='col-lg-10 d-flex justify-content-between mb-3'>
           <div className='d-flex flex-column '>
             <span className='mb-lg-2'>Price</span>
-            <small className='fs-5'>$200</small>
+            <small className='fs-5'>{data?.price}</small>
           </div>
           <div className='d-flex  w-25 text-center flex-column'>
             <span className='mb-lg-2'>Quantity</span>
@@ -61,13 +74,13 @@ const DetailsContent = () => {
           {
             ShowDes ?
               <p className='pt-lg-2 mt-3'  >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate laudantium, quisquam obcaecati, molestias eveniet nostrum veritatis praesentium quos necessitatibus sed quidem esse, perferendis natus velit animi accusantium tempore sapiente dignissimos!
+                {data?.description}
               </p> :
               <div className='mt-2'>
                 <ul>
                   <li >
-                    value :
-                    <span className='ms-1'>Lorem ipsum dolor, sit amet consectetur</span>
+                    Ratings {data?.ratings?.count}
+                    <span className='ms-1'></span>
                   </li>
                   <li >
                     value :
@@ -97,7 +110,7 @@ const DetailsContent = () => {
               <FaWhatsapp className='me-2' size={20} />
               <span>Order By WhatsApp</span>
             </div>
-            <div  style={{ width: '150px' }} >
+            <div style={{ width: '150px' }} >
               <AddToCart />
             </div>
           </div>

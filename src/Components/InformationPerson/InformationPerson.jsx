@@ -1,7 +1,8 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 const InformationPerson = () => {
+
+
+
   return (
     <div className="container">
       <div className="mb-4">
@@ -10,6 +11,7 @@ const InformationPerson = () => {
         >Step 01</h6>
         <h2 className="fw-bold">Shipping</h2>
       </div>
+      
 
       <form>
         <div className="row g-3 col-lg-8">
@@ -24,12 +26,8 @@ const InformationPerson = () => {
           </div>
 
           <div className="col-12">
-            <label className="form-label">Destination Region *</label>
-            <select className="form-select">
-              <option>United States (USD$)</option>
-              <option>Egypt (EGP)</option>
-              <option>Saudi Arabia (SAR)</option>
-            </select>
+            <label className="form-label">Email*</label>
+            <input type="email" className="form-control" placeholder='Enter your Email' />
           </div>
 
           <div className="col-12">
@@ -49,15 +47,7 @@ const InformationPerson = () => {
             <input type="text" className="form-control" placeholder='القاهرة / تجمع الخامس' />
           </div>
 
-          <div className="col-md-6">
-            <label className="form-label">Select State*</label>
-            <select className="form-select">
-              <option>Select State</option>
-              <option>Sohag</option>
-              <option>Qena</option>
-              <option>Cairo</option>
-            </select>
-          </div>
+          
 
           <div className="col-md-6">
             <label className="form-label">Postal or zip code (option)</label>
@@ -68,6 +58,12 @@ const InformationPerson = () => {
             <label className="form-label">Phone *</label>
             <input type="text" className="form-control" placeholder='01xxxxxxxxx'/>
           </div>
+
+          <div className="col-md-12">
+            <label className="form-label">Enter the payment invoice if you want to pay through Vodafone Cash or InstaPay</label>
+            <input type="file" />
+          </div>
+          
 
           <div className="col-12 d-flex justify-content-between">
             <div className="form-check">
@@ -81,7 +77,6 @@ const InformationPerson = () => {
           </div>
         </div>
       </form>
-
       
     </div>
   );

@@ -8,7 +8,6 @@ const Login = async ({  email, password }, { rejectWithValue }) => {
             email: email,
             password: password,  
         })
-        console.log(data);
         
         return data.data
     } catch (error) {

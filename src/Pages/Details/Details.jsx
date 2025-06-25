@@ -1,94 +1,44 @@
 import { useEffect } from 'react';
-import images from '../../assets/offers.jpg';
 import DetailsContent from '../../Components/DetailsContent/DetailsContent';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ReviewsDetails from '../../Components/ReviewsDetails/ReviewsDetails';
 import Products from '../../Components/Proucts/Products';
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Accordion from 'react-bootstrap/Accordion';
 import '../../App.css'
+import { useQuery } from "@tanstack/react-query";
+import { fetchProductDetails } from '../../api/Productdetails';
+import { BounceLoader } from 'react-spinners';
+import { useRelatedProduct } from '../../api/Productsrelated';
+
 const Details = () => {
-    const products = [
-        {
-            id: 1,
-            name: "Classic Leather Watch",
-            price: 79.99,
-            image: "https://specials-images.forbesimg.com/imageserve/65df2e0562b5d061b718a4af/960x0.jpg",
-            discount: "10%",
-            reviewsCount: 120,
-            rating: 5
-        },
-        {
-            id: 2,
-            name: "Modern Sunglasses",
-            price: 49.99,
-            image: "https://www.hi.edu/wp-content/uploads/2024/04/35b469_91ab9fea64b844b5be299f107840ed15_mv2.webp",
-            discount: "5%",
-            reviewsCount: 85,
-            rating: 4
-        },
-        {
-            id: 3,
-            name: "Stylish Backpack",
-            price: 39.99,
-            image: "https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTExL3JtMzYyLTAxYS1tb2NrdXAuanBn.jpg",
-            discount: "15%",
-            reviewsCount: 150,
-            rating: 4
-        },
-        {
-            id: 4,
-            name: "Smart Bluetooth Speaker",
-            price: 89.99,
-            image: "https://cgifurniture.com/blog/wp-content/uploads/2020/06/types-of-cg-product-images-view04.jpg",
-            discount: "20%",
-            reviewsCount: 190,
-            rating: 5
-        },
-        {
-            id: 5,
-            name: "Wireless Earbuds",
-            price: 59.99,
-            image: "https://www.hi.edu/wp-content/uploads/2024/04/35b469_91ab9fea64b844b5be299f107840ed15_mv2.webp",
-            discount: "10%",
-            reviewsCount: 240,
-            rating: 5
-        },
-        {
-            id: 6,
-            name: "Gaming Mouse",
-            price: 29.99,
-            image: "https://specials-images.forbesimg.com/imageserve/65df2e0562b5d061b718a4af/960x0.jpg",
-            discount: "7%",
-            reviewsCount: 60,
-            rating: 4
-        },
-        {
-            id: 7,
-            name: "Desk Lamp",
-            price: 22.50,
-            image: "https://cgifurniture.com/blog/wp-content/uploads/2020/06/types-of-cg-product-images-view04.jpg",
-            discount: "5%",
-            reviewsCount: 40,
-            rating: 3
-        },
-        {
-            id: 8,
-            name: "Casual Sneakers",
-            price: 74.99,
-            image: "https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTExL3JtMzYyLTAxYS1tb2NrdXAuanBn.jpg",
-            discount: "8%",
-            reviewsCount: 98,
-            rating: 4
-        },
-    ];
 
-    // const {id} = useParams();
+    const {id} = useParams();
 
+    const {data ,isLoading} = 
+    useQuery({queryKey: ['bestSellers'],queryFn: ()=>fetchProductDetails(id)})
+
+    console.log(data);
+
+    const {data:RelatedProduct } = useRelatedProduct(id)
+
+    console.log(RelatedProduct?.data);
+    
     useEffect(() => {
         AOS.init({ duration: 1000 });
     }, []);
+
+    if (isLoading) {
+        return <div className="d-flex justify-content-center">
+            <BounceLoader
+                color="#e6c61f"
+                size={120}
+            />
+        </div>
+    }
+    
+
     return (
         <div className="container my-4 ">
             <div className="row" >
@@ -98,7 +48,7 @@ const Details = () => {
                         {/* الصورة الرئيسية */}
                         <div className="w-100">
                             <img
-                                src={images}
+                                src={data?.imageCover}
                                 className="img-fluid rounded w-100"
                                 alt="Main"
                             />
@@ -108,18 +58,19 @@ const Details = () => {
                             className="d-flex flex-lg-column flex-row flex-wrap justify-content-center align-items-center gap-2"
                             style={{ minWidth: '110px' }}
                         >
-                            <img src={images} width={100} height={90} className="rounded" alt="thumb1" />
-                            <img src={images} width={100} height={90} className="rounded" alt="thumb2" />
-                            <img src={images} width={100} height={90} className="rounded" alt="thumb3" />
-                            <img src={images} width={100} height={90} className="rounded" alt="thumb4" />
-                            <img src={images} width={100} height={90} className="rounded" alt="thumb4" />
+                            {
+                                data?.images?.map((img,ind)=>(
+                                    <img key={ind} src={img?.url} width={100} height={90} className="rounded" alt="thumb1" />
+                                ))
+                            }
+                            
                         </div>
                     </div>
                 </div>
 
                 {/* العمود الأيمن لتفاصيل المنتج */}
                 <div className="col-12 col-lg-5 m-lg-2 d-lg-flex justify-content-center">
-                    <DetailsContent />
+                    <DetailsContent data={data}/>
                 </div>
 
                 <div className="col-lg-12 mt-4">
@@ -127,13 +78,7 @@ const Details = () => {
                         <Accordion.Item eventKey="0" >
                             <Accordion.Header >More Description </Accordion.Header>
                             <Accordion.Body>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                culpa qui officia deserunt mollit anim id est laborum.
+                                {data?.description}
                             </Accordion.Body>
                         </Accordion.Item>
                     </Accordion>
@@ -145,7 +90,7 @@ const Details = () => {
                             <Accordion.Header> Reviews Details </Accordion.Header>
                             <Accordion.Body>      
                                 {/* كموبنينت الرفيو */}
-                                <ReviewsDetails /> 
+                                <ReviewsDetails data={data}/> 
                             </Accordion.Body>
                         </Accordion.Item>
                     </Accordion>
@@ -153,10 +98,11 @@ const Details = () => {
 
                 <div className='mt-4'>
                     <h3>Similar Products</h3>
-
-                    <Products products={products} slider={true} />
+                    {
+                        RelatedProduct?.data.length === 0 ? <div className='text-center'>No Product Related....</div> :
+                        <Products products={RelatedProduct?.data} slider={true} />
+                    }
                 </div>
-
             </div>
         </div>
     );

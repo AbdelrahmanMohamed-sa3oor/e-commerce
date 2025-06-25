@@ -6,12 +6,15 @@ import '../../App.css'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 const Offers = () => {
+
+
+    
     useEffect(() => {
-      AOS.init({ duration: 1000 }); // مدة الأنيميشن بـ milliseconds
+      AOS.init({ duration: 1000 }); 
     }, []);
   return (
     <>
-    <div className="container-fluid mt-4">
+    <div className="container-fluid mt-1">
         <div className="row">
             <div className="">
                 <h3 className='mt-3 mb-4' data-aos="fade-up">Offers now</h3>
